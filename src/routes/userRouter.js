@@ -12,7 +12,9 @@
  const controller = new UserController()
  
  // GET, POST /login user
- router.get('/login', controller.login)
+ router.get('/login', (req, res, next) => controller.login(req, res, next))
+ router.post('/login',(req, res, next) => controller.loginPost(req, res, next))
+ 
  // GET, POST /logout user
  router.get('/logout', controller.logout)
  

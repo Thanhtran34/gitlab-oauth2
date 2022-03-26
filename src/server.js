@@ -2,7 +2,7 @@
 import express from 'express'
 import hbs from 'express-hbs'
 import session from 'express-session'
-//import helmet from 'helmet'
+import helmet from 'helmet'
 import logger from 'morgan'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
@@ -16,7 +16,7 @@ const main = async () => {
   const baseURL = process.env.BASE_URL || '/'
 
   // Set up a morgan logger using the dev format for log entries.
-  //app.use(helmet())
+  app.use(helmet())
   app.use(logger('dev'))
   // View engine setup.
   app.engine('hbs', hbs.express4({

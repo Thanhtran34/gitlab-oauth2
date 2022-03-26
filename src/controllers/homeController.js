@@ -4,38 +4,34 @@
  * @author Thanh Tran
  * @version 1.0.0
  */
- import moment from 'moment'
+ import crypto from 'crypto'
+ import axios from 'axios'
  /**
   * Encapsulates a controller.
   */
  export class HomeController {
-   /**
-    * Renders a view and sends the rendered HTML string as an HTTP response.
-    * index GET.
-    *
-    * @param {object} req - Express request object.
-    * @param {object} res - Express response object.
-    * @param {Function} next - Express next middleware function.
-    */
-   index (req, res, next) {
-     res.render('home/index')
+   getAuthPage(req, res) {
+    let state = crypto.randomBytes(16).toString('hex')
+    const url = `https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.URI}&response_type=code&state=${state}&scope=${process.env.SCOPE}`
+    res.cookie('XSRF-TOKEN',state);
+    res.send({authUrl: url})
    }
- 
-   /**
-    * Renders a view, based on posted data, and sends
-    * the rendered HTML string as an HTTP response.
-    *
-    * @param {object} req - Express request object.
-    * @param {object} res - Express response object.
-    * @param {Function} next - Express next middleware function.
-    */
-   indexPost (req, res, next) {
-     const locals = {
-       name: req.body.name,
-       dayName: moment().format('dddd')
-     }
- 
-     res.render('home/index', { locals })
-   }
+
+   getAccessToken(req, res) {
+    let state=req.headers["x-xsrf-token"]
+    const uri = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${req.body.code}&grant_type=authorization_code&redirect_uri=${process.env.URI}$state=${state}`
+    axios({
+    url:uri,
+    method:'POST',
+    headers:{'Accept':'application/json'}
+    })
+    .then((resp) =>
+    {
+        if(resp.data.access_token)
+        {
+            req.session.token=resp.data.access_token;
+        }
+        res.send(resp.data);
+   })
  }
- 
+}

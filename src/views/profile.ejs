@@ -1,32 +1,57 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Gitlab Oauth</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> <!-- load bulma css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load fontawesome -->
-      <style>
-          body        { padding-top:70px; }
-      </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="jumbotron">
-          <h1 class="text-primary  text-center"><span class="fa fa-gitlab"></span> User Profile</h1>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="well">
-                <p>
-                  <strong>Username</strong>: <%= userData.username %><br>
+
+<head>
+  <title>Gitlab Oauth</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <!-- load bulma css -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- load fontawesome -->
+  <style>
+    html {
+    position: relative;
+    min-height: 100%;
+  }
+
+  body {
+    background: rgb(220, 220, 220);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .jumbotron{
+    position: relative;
+    height: 530px;
+  }
+
+  .nav li {
+    padding: 10px;
+  }
+
+  </style>
+</head>
+<header>
+  <%- include('./partials/header'); %>
+</header>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="text-primary  text-center"><span class="fa fa-gitlab"></span> User Profile</h1>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="well">
+            <p>
+              <strong>Name</strong>: <%= userData.name %><br>
+                <strong>Username</strong>: <%= userData.username %><br>
                   <strong>User ID</strong>: <%= userData.id %><br>
-                    <strong>Email: </strong>: <%= userData.email %><br>
-                    <strong>Last activity on: </strong>: <%= userData.last_activity_on %>
-                </p>
-                <a class="btn" href="/activities">Activities</a>
-                <a class="btn" href="/logout">Log out</a>
-              </div>
-            </div>
+                    <strong>Primary Email: </strong>: <%= userData.email %><br>
+                      <strong>Avatar: </strong>: <a href="<%= userData.avatar_url %>">Avatar link</a><br>
+                      <strong>Last activity on: </strong>: <%= userData.last_activity_on %>
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

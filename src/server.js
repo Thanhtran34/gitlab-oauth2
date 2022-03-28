@@ -3,7 +3,6 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import cookieSession from "cookie-session";
-import ejs from "ejs";
 import helmet from "helmet";
 import logger from "morgan";
 import { dirname, join } from "path";
@@ -33,19 +32,9 @@ const main = async () => {
   if (process.env.NODE_ENV === "production") {
     // Serve static files.
     app.use(express.static(join(directoryFullName, "public")));
-
-    /**app.get('/', (req, res) => {
-      res.sendFile(join(directoryFullName + './public/index.html'))
-    })
-    */
   }
 
-  app.use(
-    cors({
-      origin: ["http://localhost:4200"],
-      methods: ["GET", "PUT", "POST", "DELETE"],
-    })
-  );
+  app.use(cors());
 
   app.use(
     cookieSession({

@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Gitlab OAuth</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Arvo&family=Kumbh+Sans&display=swap"
-      rel="stylesheet"
-    />
+<!doctype html>
+<html>
+<head>
+    <title>Choose your way to login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> <!-- load bulma css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load fontawesome -->
     <style>
       body {
   height: 100vh;
@@ -83,19 +78,14 @@ input[type='text'] {
   margin-bottom: 24px;
 }
     </style>
-  </head>
-
-  <body>
-    <div class="content unauthorized">
-      <div class="top">
-        <img class="img-gitlab" src="gitlab.png" width="300"/>
-        <h1>Happy to see you<br />newcomer 👋</h1>
-      </div>
-      <div class="content-bottom">
-        <a class="btn" href="/login">Sign In >></a>
-        <p class="sign-in-text">in order to get started</p>
-      </div>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron text-center text-primary">
+        <h1><span class="fa fa-gitlab"></span> Gitlab OAuth</h1>
+        <p>Authorize your app with:</p>
+        <a href="https://gitlab.lnu.se/oauth/authorize?<%= qs %>" class="btn btn-danger"><span class="fa fa-gitlab"></span> Gitlab Login</a>
     </div>
-    </div>
-  </body>
-</html>
+</div>
+</body>
+</html> 

@@ -12,13 +12,16 @@ export const router = express.Router();
 const controller = new HomeController();
 const userController = new UserController();
 
-router.get("/AuthPage", (req, res) => controller.getAuthPage(req, res));
-router.post("/getAccessToken", (req, res) =>
-  controller.getAccessToken(req, res)
+router.get("/", (req, res, next) => controller.getMainPage(req, res, next));
+router.get("/login", (req, res, next) =>
+  controller.getAuthPage(req, res, next)
 );
-router.get("/getUserDetails", (req, res) =>
-  userController.getUserDetails(req, res)
+router.get("/oauth/redirect", (req, res, next) =>
+  controller.getOauthTokens(req, res, next)
 );
+router.get("/home", (req, res, next) => res.render("home"));
+router.get("/profile", (req, res, next) => res.render("profile"));
+router.get("/activities", (req, res) => res.render("acttivities"));
 router.get("/logout", (req, res) => userController.logout(req, res));
 router.use("*", (req, res, next) => {
   const error = new Error();

@@ -15,14 +15,13 @@ const main = async () => {
   const app = express();
   const directoryFullName = dirname(fileURLToPath(import.meta.url));
 
-  const baseURL = process.env.BASE_URL || "/";
-
   // Set up a morgan logger using the dev format for log entries.
   app.use(helmet());
   app.use(logger("dev"));
   // View engine setup.
   app.set("view engine", "ejs");
   app.set("views", join(directoryFullName, "views"));
+  app.use(express.static(join(directoryFullName, '..', 'public')))
 
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).
@@ -57,7 +56,7 @@ const main = async () => {
   );
 
   // Register routes.
-  app.use("/oauth", router);
+  app.use("/", router);
 
   // Error handler.
   app.use(function (err, req, res, next) {

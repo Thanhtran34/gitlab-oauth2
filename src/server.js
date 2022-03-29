@@ -38,7 +38,7 @@ const main = async () => {
   app.set("views", join(directoryFullName, "views"));
 
   if(process.env.NODE_ENV === "production") {
-    app.use(express.static(join(directoryFullName,"/","public")));
+    app.use(express.static(join(directoryFullName,".","public")));
   }
 
   // Setup and use session middleware (https://github.com/expressjs/session)

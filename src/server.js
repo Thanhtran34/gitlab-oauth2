@@ -26,7 +26,7 @@ const main = async () => {
   );
   app.use(cors());
   app.use(logger("dev"));
-  app.use(express.static(join(directoryFullName, "..", "public")));
+  app.use(express.static(join(directoryFullName, "public")));
 
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).
@@ -37,7 +37,7 @@ const main = async () => {
     app.use(express.static(join(directoryFullName, 'public')))
 
     app.get('/', (req, res) => {
-      res.sendFile(join(directoryFullName + './public'))
+      res.sendFile(join(directoryFullName + '/public'))
     })
   }
 

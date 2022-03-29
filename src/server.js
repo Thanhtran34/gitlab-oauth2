@@ -35,10 +35,6 @@ const main = async () => {
   if (process.env.NODE_ENV === 'production') {
     // Serve static files.
     app.use(express.static(join(directoryFullName, 'public')))
-
-    app.get('/', (req, res) => {
-      res.sendFile(join(directoryFullName + '/public/'))
-    })
   }
 
   // View engine setup.

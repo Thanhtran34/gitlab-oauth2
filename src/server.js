@@ -88,7 +88,7 @@ const main = async () => {
   });
 
   app.listen(process.env.PORT, () => {
-    console.log(`Server running at http://localhost:${process.env.PORT}`);
+    console.log(`App is running at ${process.env.PORT}`);
     console.log("Press Ctrl-C to terminate...");
   });
 };

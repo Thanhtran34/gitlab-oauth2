@@ -27,6 +27,9 @@ const main = async () => {
   app.use(cors());
   app.use(logger("dev"));
   app.use(express.static(join(directoryFullName, "..", "public")));
+  if(process.env.NODE_ENV === "production") {
+    app.use(express.static(join(directoryFullName, "public")));
+  }
 
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).
@@ -36,10 +39,6 @@ const main = async () => {
   // View engine setup.
   app.set("view engine", "ejs");
   app.set("views", join(directoryFullName, "views"));
-
-  if(process.env.NODE_ENV === "production") {
-    app.use(express.static(join(directoryFullName, "./public")));
-  }
 
   // Setup and use session middleware (https://github.com/expressjs/session)
   const sessionOptions = {

@@ -37,6 +37,10 @@ const main = async () => {
   app.set("view engine", "ejs");
   app.set("views", join(directoryFullName, "views"));
 
+  if(process.env.NODE_ENV === "production") {
+    app.use(express.static(join(directoryFullName, "public")));
+  }
+
   // Setup and use session middleware (https://github.com/expressjs/session)
   const sessionOptions = {
     name: process.env.SESSION_NAME, // Don't use default session cookie name.

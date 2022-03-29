@@ -26,8 +26,12 @@ const main = async () => {
   );
   app.use(cors());
   app.use(logger("dev"));
-  app.use(express.static(join(directoryFullName, "public")));
-  console.log(join(directoryFullName, "public"))
+  app.use(express.static(join(directoryFullName, "..", "public")));
+
+  if (process.env.NODE_ENV === 'production') {
+    // Serve static files.
+    app.use(express.static('public'))
+  }
 
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).

@@ -50,7 +50,6 @@
        });
        const response = await axios.post(page, query);
        const expiration = response.data.expires_in + response.data.created_at
-       console.log(this.isTokenValid(expiration))
        if(this.isTokenValid(expiration) === "true") {
          const refreshToken = response.data.refresh_token
          req.session.token = this.getNewAccessToken(req, res, next,refreshToken)

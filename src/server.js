@@ -19,10 +19,12 @@ const main = async () => {
     helmet.contentSecurityPolicy({
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com']
+        'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'https://gitlab.lnu.se'],
+        'img-src': ["'self'", 'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net']
       }
     })
   );
+  app.use(cors());
   app.use(logger("dev"));
   // View engine setup.
   app.set("view engine", "ejs");
@@ -39,8 +41,6 @@ const main = async () => {
     // Serve static files.
     app.use(express.static(join(directoryFullName, "public")));
   }
-
-  app.use(cors());
 
   // Setup and use session middleware (https://github.com/expressjs/session)
   const sessionOptions = {

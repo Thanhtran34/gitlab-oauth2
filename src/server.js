@@ -37,7 +37,7 @@ const main = async () => {
     app.use(express.static(join(directoryFullName, 'public')))
 
     app.get('/', (req, res) => {
-      res.sendFile(join(directoryFullName + '/public'))
+      res.sendFile(join(directoryFullName + 'public'))
     })
   }
 

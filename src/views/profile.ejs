@@ -1,7 +1,9 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>Gitlab Oauth</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <!-- load bulma css -->
@@ -40,11 +42,10 @@
         <div class="col-sm-6">
           <div class="well">
             <p>
-              <strong>Name</strong>: <%= userData.name %><br>
+              <strong>Name</strong>:<img class="img-gitlab" src="avatar.png" width="40" title="gitlab_avatar" /> <%= userData.name %> <br>
                 <strong>Username</strong>: <%= userData.username %><br>
                   <strong>User ID</strong>: <%= userData.id %><br>
                     <strong>Primary Email: </strong>: <%= userData.email %><br>
-                      <strong>Avatar: </strong>: <a href="<%= userData.avatar_url %>">Avatar link</a><br>
                       <strong>Last activity on: </strong>: <%= userData.last_activity_on %>
             </p>
           </div>

@@ -16,6 +16,14 @@ const main = async () => {
 
   // Set up a morgan logger using the dev format for log entries.
   app.use(helmet());
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com']
+      }
+    })
+  );
   app.use(logger("dev"));
   // View engine setup.
   app.set("view engine", "ejs");

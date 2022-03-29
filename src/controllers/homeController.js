@@ -24,7 +24,7 @@
        state: state,
        scope: ["email", "read_user", "profile"].join(" "),
      };
-     res.cookie("XSRF-TOKEN", state);
+     //res.cookie("XSRF-TOKEN", state);
      const query = new URLSearchParams(options);
      const  qs = `${query.toString()}`
      res.render('app', {qs : qs})

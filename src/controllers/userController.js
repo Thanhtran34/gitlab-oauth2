@@ -7,8 +7,7 @@
 import axios from "axios";
 import sharp from "sharp";
 import fs from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import createError from "http-errors";
 /**
  * Encapsulates a controller.
  */
@@ -21,10 +20,10 @@ export class UserController {
           headers: { Authorization: `Bearer ${req.session.token}` },
         });
         req.session.user = response.data.id;
-        this.getUserAvatar(response.data.avatar_url)
+        this.getUserAvatar(response.data.avatar_url);
         res.render("profile", { userData: response.data });
       } else {
-        res.status(401).send();
+        createError(401, "Fail to get user's details!");
       }
     } catch (e) {
       next(e);
@@ -41,11 +40,9 @@ export class UserController {
 
   saveAvatarToPublic(img) {
     const data = Buffer.from(img);
-    fs.writeFile(`public/avatar.png`, data, (err) => {
+    fs.writeFile("public/avatar.png", data, (err) => {
       if (err) {
-        console.log(err);
-      } else {
-        console.log("File created successfully!");
+        throw new Error("Fail to write to file");
       }
     });
   }
@@ -63,7 +60,7 @@ export class UserController {
           list.push(...response.data);
           pageIndex++;
         } else {
-          res.status(401).send();
+          createError(401, "Fail to get activities");
         }
       } while (list.length < 101);
       res.render("activities", { list: list.slice(0, 101) });
@@ -73,8 +70,16 @@ export class UserController {
   }
 
   logout(req, res) {
-    req.session = null;
-    res.clearCookie("sess");
+    req.session.destroy();
+    fs.unlink("public/avatar.png", function (err) {
+      if (err && err.code == "ENOENT") {
+        // file doens't exist
+        console.info("File doesn't exist, won't remove it.");
+      } else if (err) {
+        // other errors, e.g. maybe we don't have enough permission
+        throw new Error("Error occurred while trying to remove file");
+      }
+    });
     res.redirect("/");
   }
 }

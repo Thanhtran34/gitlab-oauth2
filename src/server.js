@@ -1,10 +1,9 @@
 // Main point of the application
 import express from "express";
-import cookieParser from "cookie-parser";
 import cors from "cors";
-import cookieSession from "cookie-session";
 import helmet from "helmet";
 import logger from "morgan";
+import session from 'express-session'
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { router } from "./routes/router.js";
@@ -34,7 +33,6 @@ const main = async () => {
   // Populates the request object with a body object (req.body).
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
-  app.use(cookieParser());
 
   // Serve static files.
   if (process.env.NODE_ENV === "production") {
@@ -44,13 +42,25 @@ const main = async () => {
 
   app.use(cors());
 
-  app.use(
-    cookieSession({
-      name: "sess", //name of the cookie in the browser
-      secret: process.env.SECRET,
+  // Setup and use session middleware (https://github.com/expressjs/session)
+  const sessionOptions = {
+    name: process.env.SESSION_NAME, // Don't use default session cookie name.
+    secret: process.env.SESSION_SECRET, // Change it!!! The secret is used to hash the session with HMAC.
+    resave: false, // Resave even if a request is not changing the session.
+    saveUninitialized: false, // Don't save a created but not modified session.
+    cookie: {
       httpOnly: true,
-    })
-  );
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      sameSite: 'lax' // allowed when following a regular link from an external website, blocking it in CSRF-prone request methods (POST)
+    }
+  }
+
+  if (app.get('env') === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    sessionOptions.cookie.secure = true // serve secure cookies
+  }
+
+  app.use(session(sessionOptions))
 
   // Register routes.
   app.use("/", router);

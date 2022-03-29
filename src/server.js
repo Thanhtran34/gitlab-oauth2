@@ -32,6 +32,14 @@ const main = async () => {
   // Populates the request object with a body object (req.body).
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
+  if (process.env.NODE_ENV === 'production') {
+    // Serve static files.
+    app.use(express.static(join(directoryFullName, 'public')))
+
+    app.get('/', (req, res) => {
+      res.sendFile(join(directoryFullName + './public'))
+    })
+  }
 
   // View engine setup.
   app.set("view engine", "ejs");

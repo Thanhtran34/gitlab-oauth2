@@ -20,7 +20,7 @@ const main = async () => {
         directives: {
           ...helmet.contentSecurityPolicy.getDefaultDirectives(),
           'default-src': ["'self'"],
-          'script-src': ["'self'", 'https://gitlab.lnu.se', 'cdn.jsdelivr.net', 'code.jquery.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
+          'script-src': ['https://gitlab.lnu.se', 'cdn.jsdelivr.net', 'code.jquery.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
           'img-src': ["'self'", 'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net']
         }
       },

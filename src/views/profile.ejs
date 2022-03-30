@@ -8,24 +8,28 @@
   <%- include('./partials/header'); %>
 </header>
 <body>
-  <div class="container">
-    <div class="jumbotron">
-      <h1 class="text-primary  text-center"><img class="peacock" src="peacock.gif" title="peacock" width="auto" /> User Profile</h1>
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="well">
-            <p>
-              <strong>Name</strong>:<img class="avatar" src="avatar.png" title="gitlab_avatar" />   <%= userData.name %> <br>
-                <strong>Username</strong>: <%= userData.username %><br>
-                  <strong>User ID</strong>: <%= userData.id %><br>
-                    <strong>Primary Email: </strong>: <%= userData.email %><br>
-                      <strong>Last activity on: </strong>: <%= userData.last_activity_on %>
-            </p>
+  <% if(userData){ %>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="text-primary  text-center"><img class="peacock" src="peacock.gif" title="peacock" width="auto" /> User Profile</h1>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="well">
+              <p>
+                <strong>Name</strong>:<img class="avatar" src="avatar.png" title="gitlab_avatar" />   <%= userData.name %> <br>
+                  <strong>Username</strong>: <%= userData.username %><br>
+                    <strong>User ID</strong>: <%= userData.id %><br>
+                      <strong>Primary Email: </strong>: <%= userData.email %><br>
+                        <strong>Last activity on: </strong>: <%= userData.last_activity_on %>
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  <% } else{ %>  
+    <%- include('./error'); %>
+ <% } %>
   <!-- Bootstrap: jQuery and JS bundle w/ Popper.js -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">

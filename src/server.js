@@ -48,14 +48,14 @@ const main = async () => {
 
   // Setup and use session middleware (https://github.com/expressjs/session)
   const sessionOptions = {
-    name: process.env.SESSION_NAME, // Don't use default session cookie name.
-    secret: process.env.SESSION_SECRET, // Change it!!! The secret is used to hash the session with HMAC.
-    resave: false, // Resave even if a request is not changing the session.
-    saveUninitialized: false, // Don't save a created but not modified session.
+    name: process.env.SESSION_NAME, 
+    secret: process.env.SESSION_SECRET, 
+    resave: false, 
+    saveUninitialized: false, 
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: 'lax' // allowed when following a regular link from an external website, blocking it in CSRF-prone request methods (POST)
+      maxAge: 1000 * 60 * 60 * 24, 
+      sameSite: 'lax' 
     }
   }
 

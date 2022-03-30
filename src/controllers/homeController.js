@@ -7,7 +7,7 @@
  import crypto from 'crypto'
  import axios from 'axios'
  /**
-  * Encapsulates a controller.
+  * Encapsulates a home controller.
   */
  export class HomeController {
    //Get main page
@@ -33,7 +33,6 @@
    async getOauthTokens(req, res, next) {
      try {
        const requestToken = req.query.code;
-
        const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${requestToken}&grant_type=authorization_code&redirect_uri=${process.env.URI}`
 
        req.session.regenerate((err) => {
@@ -56,11 +55,13 @@
      }
    }
 
+   //Check if the access token is expired or not
    isTokenValid(expiration) {
      const restTime = expiration - Math.ceil(Date.now() / 1000)
      return (Math.abs(restTime) > 7200)
    }
 
+   // Send request with refresh token to get new access token
    async getNewAccessToken(req, res, next, token) {
      try{
       const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${token}&grant_type=refresh_token&redirect_uri=${process.env.URI}`

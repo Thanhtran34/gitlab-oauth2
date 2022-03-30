@@ -9,7 +9,7 @@ import sharp from "sharp";
 import fs from "fs";
 import createError from "http-errors";
 /**
- * Encapsulates a controller.
+ * Encapsulates a user controller.
  */
 export class UserController {
   async getUserDetails(req, res, next) {
@@ -30,6 +30,7 @@ export class UserController {
     }
   }
 
+  // send request to get avatar img and save to public folder
   async getUserAvatar(url) {
     const imageResponse = await axios.get(url, {
       responseType: "arraybuffer",
@@ -38,6 +39,7 @@ export class UserController {
     this.saveAvatarToPublic(img);
   }
 
+  // save image to public folder 
   saveAvatarToPublic(img) {
     const data = Buffer.from(img);
     fs.writeFile("public/avatar.png", data, (err) => {
@@ -47,6 +49,7 @@ export class UserController {
     });
   }
 
+  // Get user activities in gitlab
   async getUserActivities(req, res, next) {
     try {
       const list = [];
@@ -69,6 +72,7 @@ export class UserController {
     }
   }
 
+  // clean session and delete avatar image of user
   logout(req, res) {
     req.session.destroy();
     fs.unlink("public/avatar.png", function (err) {

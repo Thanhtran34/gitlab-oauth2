@@ -21,6 +21,7 @@ const main = async () => {
           ...helmet.contentSecurityPolicy.getDefaultDirectives(),
           'default-src': ["'self'"],
           'script-src': ["'self'",'https://gitlab.lnu.se', 'cdn.jsdelivr.net', 'code.jquery.com','https://fonts.googleapis.com', 'https://pro.fontawesome.com','https://mdbootstrap.com'],
+          'script-scr-attr': ['none'],
           'img-src': ["'self'",'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net', 'https://mdbootstrap.com']
         }
       },

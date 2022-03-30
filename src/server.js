@@ -12,7 +12,6 @@ import { router } from "./routes/router.js";
 const main = async () => {
   const app = express();
   const directoryFullName = dirname(fileURLToPath(import.meta.url));
-  const baseURL = process.env.BASE_URL || '/'
 
   // Set up a morgan logger using the dev format for log entries.
   app.use(
@@ -66,14 +65,6 @@ const main = async () => {
   }
 
   app.use(session(sessionOptions));
-
-  // Middleware to be executed before the routes.
-  app.use((req, res, next) => {
-    // Pass the base URL to the views.
-    res.locals.baseURL = baseURL
-
-    next()
-  })
 
   // Register routes.
   app.use("/", router);

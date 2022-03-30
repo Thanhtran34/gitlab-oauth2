@@ -20,13 +20,10 @@ const main = async () => {
         directives: {
           ...helmet.contentSecurityPolicy.getDefaultDirectives(),
           'default-src': ["'self'"],
-          'script-src': ["'self'",'https://gitlab.lnu.se', 'cdn.jsdelivr.net', 'code.jquery.com','https://fonts.googleapis.com', 'https://pro.fontawesome.com','https://mdbootstrap.com'],
-          'script-scr-attr': ['none'],
+          'script-src': ["'self'",'https://gitlab.lnu.se', 'cdn.jsdelivr.net', 'code.jquery.com','https://fonts.googleapis.com', 'https://pro.fontawesome.com','https://mdbootstrap.com', 'cdnjs.cloudflare.com'],
           'img-src': ["'self'",'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net', 'https://mdbootstrap.com']
         }
-      },
-      crossOriginResourcePolicy: { policy: 'cross-origin' },
-      crossOriginEmbedderPolicy: false
+      }
     }));
   
   app.use(cors());

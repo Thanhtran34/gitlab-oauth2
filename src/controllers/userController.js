@@ -40,7 +40,7 @@ export class UserController {
 
   saveAvatarToPublic(img) {
     const data = Buffer.from(img);
-    fs.writeFile("src/public/avatar.png", data, (err) => {
+    fs.writeFile("public/avatar.png", data, (err) => {
       if (err) {
         throw new Error("Fail to write to file");
       }
@@ -71,7 +71,7 @@ export class UserController {
 
   logout(req, res) {
     req.session.destroy();
-    fs.unlink("src/public/avatar.png", function (err) {
+    fs.unlink("public/avatar.png", function (err) {
       if (err && err.code == "ENOENT") {
         // file doens't exist
         console.info("File doesn't exist, won't remove it.");

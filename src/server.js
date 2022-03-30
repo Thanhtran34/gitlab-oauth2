@@ -26,15 +26,15 @@ const main = async () => {
   );
   app.use(cors());
   app.use(logger("dev"));
-  app.use(express.static(join(directoryFullName, "public")));
+  app.use(express.static(join(directoryFullName, "..", "public")));
 
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     // Serve static files.
-    app.use(express.static(join(directoryFullName, 'public')))
+    app.use(express.static("public"))
   }
 
   // View engine setup.

@@ -58,7 +58,7 @@
    //Check if the access token is expired or not
    isTokenValid(expiration) {
      const restTime = expiration - Math.ceil(Date.now() / 1000)
-     return (Math.abs(restTime) > 7200)
+     return (restTime < 0)
    }
 
    // Send request with refresh token to get new access token

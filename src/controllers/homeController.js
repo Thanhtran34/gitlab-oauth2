@@ -32,23 +32,16 @@
    //Get access token
    async getOauthTokens(req, res, next) {
      try {
-       const page = process.env.GITLAB_LINK;
        const requestToken = req.query.code;
 
-       let options = {
-         client_id: process.env.CLIENT_ID,
-         client_secret: process.env.CLIENT_SECRET,
-         code: requestToken,
-         grant_type: "authorization_code",
-         redirect_uri: process.env.URI,
-       };
-       const query = new URLSearchParams(options).toString();
+       const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${requestToken}&grant_type=authorization_code&redirect_uri=${process.env.URI}`
+
        req.session.regenerate((err) => {
          if (err) {
            next(err);
          }
        });
-       const response = await axios.post(page, query);
+       const response = await axios.post(url);
        const expiration = response.data.expires_in + response.data.created_at
        if(this.isTokenValid(expiration) === "true") {
          const refreshToken = response.data.refresh_token
@@ -70,16 +63,8 @@
 
    async getNewAccessToken(req, res, next, token) {
      try{
-      const page = process.env.GITLAB_LINK;
-      let options = {
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIENT_SECRET,
-        refresh_token: token,
-        grant_type: "refresh_token",
-        redirect_uri: process.env.URI,
-      };
-      const query = new URLSearchParams(options).toString();
-      const response = await axios.post(page, query);
+      const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${token}&grant_type=refresh_token&redirect_uri=${process.env.URI}`
+      const response = await axios.post(url);
       return response.data.access_token
      } catch(e) {
        next(e)

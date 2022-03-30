@@ -36,11 +36,6 @@
        const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${requestToken}&grant_type=authorization_code&redirect_uri=${process.env.URI}`
 
        const response = await axios.post(url);
-       req.session.regenerate((err) => {
-        if (err) {
-          next(err);
-        }
-      });
        const expiration = response.data.expires_in + response.data.created_at
        if(this.isTokenValid(expiration) === "true") {
          const refreshToken = response.data.refresh_token

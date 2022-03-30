@@ -21,7 +21,8 @@ const main = async () => {
           ...helmet.contentSecurityPolicy.getDefaultDirectives(),
           'default-src': ["'self'"],
           'script-src': ["'self'",'https://gitlab.lnu.se', 'cdn.jsdelivr.net', 'code.jquery.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
-          'img-src': ["'self'",'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net']
+          'img-src': ["'self'",'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net'],
+          'font-src': ["'self'",'https://fonts.googleapis.com']
         }
       },
       crossOriginResourcePolicy: { policy: 'cross-origin' },

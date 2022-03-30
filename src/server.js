@@ -14,16 +14,20 @@ const main = async () => {
   const directoryFullName = dirname(fileURLToPath(import.meta.url));
 
   // Set up a morgan logger using the dev format for log entries.
-  app.use(helmet());
   app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'https://gitlab.lnu.se'],
-        'img-src': ["'self'", 'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net']
-      }
-    })
-  );
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+          'default-src': ["'self'"],
+          'script-src': ["'self'", 'https://gitlab.lnu.se', 'cdn.jsdelivr.net', 'code.jquery.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
+          'img-src': ["'self'", 'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net']
+        }
+      },
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+      crossOriginEmbedderPolicy: false
+    }));
+  
   app.use(cors());
   app.use(logger("dev"));
   app.use(express.static(join(directoryFullName, "..", "public")));
@@ -35,6 +39,7 @@ const main = async () => {
   if (process.env.NODE_ENV === "production") {
     // Serve static files.
     app.use(express.static("public"))
+    app.use(express.static('https://gitlab.lnu.se'))
   }
 
   // View engine setup.

@@ -22,7 +22,7 @@
        redirect_uri: process.env.URI,
        response_type: "code",
        state: state,
-       scope: ["email", "read_user", "profile"].join(" "),
+       scope: ["read_user", "profile", "email"].join(" "),
      };
      const query = new URLSearchParams(options);
      const qs = `${query.toString()}`;
@@ -33,18 +33,19 @@
    async getOauthTokens(req, res, next) {
      try {
        const requestToken = req.query.code;
-       const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${requestToken}&grant_type=authorization_code&redirect_uri=${process.env.URI}`
+       const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${requestToken}&grant_type=authorization_code&redirect_uri=${process.env.URI}`;
 
        const response = await axios.post(url);
-       const expiration = response.data.expires_in + response.data.created_at
-       if(this.isTokenValid(expiration) === "true") {
-         const refreshToken = response.data.refresh_token
-         req.session.token = this.getNewAccessToken(req, res, next,refreshToken)
+       const expiration = response.data.expires_in + response.data.created_at;
+       if (this.isTokenValid(expiration)) {
+         req.session.refresh_token= response.data.refresh_token;
+         req.session.save();
+         res.render("keepLogin");
        } else {
-        req.session.token = response.data.access_token;
+         req.session.token = response.data.access_token;
+         req.session.save();
+         res.redirect("/profile");
        }
-       req.session.save();
-       res.redirect("/profile");
      } catch (e) {
        next(e);
      }
@@ -52,18 +53,20 @@
 
    //Check if the access token is expired or not
    isTokenValid(expiration) {
-     const restTime = expiration - Math.ceil(Date.now() / 1000)
-     return (restTime < 0)
+     const restTime = expiration - Math.ceil(Date.now() / 1000) - 7200;
+     return restTime < 0;
    }
 
    // Send request with refresh token to get new access token
-   async getNewAccessToken(req, res, next, token) {
-     try{
-      const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${token}&grant_type=refresh_token&redirect_uri=${process.env.URI}`
-      const response = await axios.post(url);
-      return response.data.access_token
-     } catch(e) {
-       next(e)
+   async getNewAccessToken(req, res, next) {
+     try {
+       const url = `https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${req.session.refresh_token}&grant_type=refresh_token&redirect_uri=${process.env.URI}`;
+       const response = await axios.post(url);
+       req.session.token = response.data.access_token;
+       req.session.save();
+       res.redirect("/profile");
+     } catch (e) {
+       next(e);
      }
    }
  }

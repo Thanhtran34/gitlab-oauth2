@@ -15,6 +15,7 @@ const userController = new UserController();
 router.get("/", (req, res, next) => controller.getMainPage(req, res, next));
 router.get("/login", (req, res, next) => controller.getAuthPage(req, res, next));
 router.get("/oauth/redirect", (req, res, next) => controller.getOauthTokens(req, res, next));
+router.get("/relogin", (req, res, next) => controller.getNewAccessToken(req, res, next));
 router.get("/profile", (req, res, next) => userController.getUserDetails(req, res, next));
 router.get("/activities", (req, res, next) => userController.getUserActivities(req, res, next));
 router.get("/logout", (req, res) => userController.logout(req, res));

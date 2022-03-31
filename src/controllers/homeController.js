@@ -53,7 +53,7 @@
 
    //Check if the access token is expired or not
    isTokenValid(expiration) {
-     const restTime = expiration - Math.ceil(Date.now() / 1000) - 7200;
+     const restTime = expiration - Math.ceil(Date.now() / 1000);
      return restTime < 0;
    }
 

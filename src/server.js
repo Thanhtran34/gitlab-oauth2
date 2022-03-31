@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import logger from "morgan";
-import session from 'express-session'
+import session from "express-session";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { router } from "./routes/router.js";
@@ -19,15 +19,31 @@ const main = async () => {
       contentSecurityPolicy: {
         directives: {
           ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-          'default-src': ["'self'"],
-          'script-src': ["'self'",'https://gitlab.lnu.se', 'cdn.jsdelivr.net', 'code.jquery.com','https://fonts.googleapis.com', 'https://pro.fontawesome.com','https://mdbootstrap.com', 'cdnjs.cloudflare.com'],
-          'img-src': ["'self'",'https://gitlab.lnu.se', '*.gravatar.com', 'cdn.jsdelivr.net', 'https://mdbootstrap.com']
-        }
+          "default-src": ["'self'"],
+          "script-src": [
+            "'self'",
+            "https://gitlab.lnu.se",
+            "cdn.jsdelivr.net",
+            "code.jquery.com",
+            "https://fonts.googleapis.com",
+            "https://pro.fontawesome.com",
+            "https://mdbootstrap.com",
+            "cdnjs.cloudflare.com",
+          ],
+          "img-src": [
+            "'self'",
+            "https://gitlab.lnu.se",
+            "*.gravatar.com",
+            "cdn.jsdelivr.net",
+            "https://mdbootstrap.com",
+          ],
+        },
       },
-      crossOriginResourcePolicy: { policy: 'cross-origin' },
-      crossOriginEmbedderPolicy: false
-    }));
-  
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+      crossOriginEmbedderPolicy: false,
+    })
+  );
+
   app.use(cors());
   app.use(logger("dev"));
   app.use(express.static(join(directoryFullName, "..", "public")));
@@ -38,8 +54,8 @@ const main = async () => {
   app.use(express.json());
   if (process.env.NODE_ENV === "production") {
     // Serve static files.
-    app.use(express.static("public"))
-    app.use(express.static('https://gitlab.lnu.se'))
+    app.use(express.static("public"));
+    app.use(express.static("https://gitlab.lnu.se"));
   }
 
   // View engine setup.
@@ -48,20 +64,20 @@ const main = async () => {
 
   // Setup and use session middleware (https://github.com/expressjs/session)
   const sessionOptions = {
-    name: process.env.SESSION_NAME, 
-    secret: process.env.SESSION_SECRET, 
-    resave: false, 
-    saveUninitialized: false, 
+    name: process.env.SESSION_NAME,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, 
-      sameSite: 'lax' 
-    }
-  }
+      maxAge: 1000 * 60 * 60 * 24,
+      sameSite: "lax",
+    },
+  };
 
-  if (app.get('env') === 'production') {
-    app.set('trust proxy', 1) // trust first proxy
-    sessionOptions.cookie.secure = true // serve secure cookies
+  if (app.get("env") === "production") {
+    app.set("trust proxy", 1); // trust first proxy
+    sessionOptions.cookie.secure = true; // serve secure cookies
   }
 
   app.use(session(sessionOptions));

@@ -39,7 +39,7 @@ export class UserController {
     this.saveAvatarToPublic(img);
   }
 
-  // save image to public folder 
+  // save image to public folder
   saveAvatarToPublic(img) {
     const data = Buffer.from(img);
     fs.writeFile("public/avatar.png", data, (err) => {

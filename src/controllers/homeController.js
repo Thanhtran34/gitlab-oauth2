@@ -22,7 +22,7 @@
        redirect_uri: process.env.URI,
        response_type: "code",
        state: state,
-       scope: ["read_user", "profile", "email"].join(" "),
+       scope: ["read_user", "read_api"].join(" "),
      };
      const query = new URLSearchParams(options);
      const qs = `${query.toString()}`;

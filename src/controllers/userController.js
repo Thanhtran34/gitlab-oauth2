@@ -53,20 +53,21 @@ export class UserController {
   async getUserActivities(req, res, next) {
     try {
       const list = [];
-      let pageIndex = 1;
-      const rootUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events?per_page=20&page=${pageIndex}`;
-      do {
+      const firstUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events?per_page=100&page=1`;
+      const secondUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events?per_page=1&page=101`
         if (req.session.user) {
-          const response = await axios.get(rootUrl, {
+          const firstResponse = await axios.get(firstUrl, {
             headers: { Authorization: `Bearer ${req.session.token}` },
           });
-          list.push(...response.data);
-          pageIndex++;
+          const secondResponse = await axios.get(secondUrl, {
+            headers: { Authorization: `Bearer ${req.session.token}` },
+          });
+          list.push(...firstResponse.data);
+          list.push(...secondResponse.data);
         } else {
           createError(401, "Fail to get activities");
         }
-      } while (list.length < 101);
-      res.render("activities", { list: list.slice(0, 101) });
+      res.render("activities", { list: list});
     } catch (e) {
       next(e);
     }

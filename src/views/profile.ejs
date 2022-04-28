@@ -16,8 +16,9 @@
           <div class="col-sm-6">
             <div class="well">
               <p>
-                <strong>Name</strong>:<img class="avatar" src="avatar.png" title="gitlab_avatar" />   <%= userData.name %> <br>
+                <strong>Name</strong>: <%= userData.name %> <br>
                   <strong>Username</strong>: <%= userData.username %><br>
+                  <strong>Avatar</strong>: <a href="<%= userData.avatar_url %>">avatar_link</a><br>
                     <strong>User ID</strong>: <%= userData.id %><br>
                       <strong>Primary Email: </strong>: <%= userData.email %><br>
                         <strong>Last activity on: </strong>: <%= userData.last_activity_on %>

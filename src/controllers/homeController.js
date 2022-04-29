@@ -69,6 +69,9 @@ export class HomeController {
       req.session.save();
       res.redirect("/profile");
     } catch (e) {
+      if(e) {
+        res.render("denial");
+      }
       next(e);
     }
   }

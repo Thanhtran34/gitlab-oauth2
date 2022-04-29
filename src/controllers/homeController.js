@@ -47,6 +47,9 @@ export class HomeController {
         res.redirect("/profile");
       }
     } catch (e) {
+      if(e) {
+        res.render("denial");
+      }
       next(e);
     }
   }

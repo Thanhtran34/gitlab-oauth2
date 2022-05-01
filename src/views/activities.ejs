@@ -4,12 +4,15 @@
 <head>
   <%- include('./partials/head_page'); %>
 </head>
-<% if(list.length > 0){ %>
+
 <header>
+  <% if(list.length > 0){ %>
   <%- include('./partials/header'); %>
+  <% } %>
 </header>
 
 <body>
+  <% if(list.length > 0){ %>
     <div class="container">
       <div class="jumbotron">
         <h1 class="text-primary  text-center"><img class="link" src="link.gif" title="peacock" width="auto" /> Your last 101 activities</h1>

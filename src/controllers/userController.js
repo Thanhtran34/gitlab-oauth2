@@ -32,22 +32,24 @@ export class UserController {
     try {
       const list = [];
       const firstUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events?per_page=100&page=1`;
-      const secondUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events?per_page=1&page=101`
-        if (req.session.user) {
-          const firstResponse = await axios.get(firstUrl, {
-            headers: { Authorization: `Bearer ${req.session.token}` },
-          });
+      const secondUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events?per_page=1&page=101`;
+      if (req.session.user) {
+        const firstResponse = await axios.get(firstUrl, {
+          headers: { Authorization: `Bearer ${req.session.token}` },
+        });
+        list.push(...firstResponse.data);
+        if (list.length === 100) {
           const secondResponse = await axios.get(secondUrl, {
             headers: { Authorization: `Bearer ${req.session.token}` },
           });
-          list.push(...firstResponse.data);
           list.push(...secondResponse.data);
-        } else {
-          createError(401, "Fail to get activities");
         }
-      res.render("activities", { list: list});
+      } else {
+        createError(401, "Fail to get activities");
+      }
+      res.render("activities", { list: list });
     } catch (e) {
-      next(e);
+      next(createError(404, "Not Found"));
     }
   }
 

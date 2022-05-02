@@ -4,6 +4,11 @@
 <head>
   <%- include('./partials/head_page'); %>
 </head>
+<style>
+  .avatar {
+    border-radius: 50%
+  }
+</style>
 <header>
   <% if(userData){ %>
   <%- include('./partials/header'); %>
@@ -20,7 +25,7 @@
               <p>
                 <strong>Name</strong>: <%= userData.name %> <br>
                   <strong>Username</strong>: <%= userData.username %><br>
-                  <strong>Avatar</strong>: <a href="<%= userData.avatar_url %>">avatar_link</a><br>
+                  <strong>Avatar</strong>: <img src=<%= userData.avatar_url %> class="avatar" alt="avatarImg"><br>
                     <strong>User ID</strong>: <%= userData.id %><br>
                       <strong>Primary Email: </strong>: <%= userData.email %><br>
                         <strong>Last activity on: </strong>: <%= userData.last_activity_on %>

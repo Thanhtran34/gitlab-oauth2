@@ -41,6 +41,7 @@ export class UserController {
           },
         });
         list.push(...firstResponse.data);
+        // If user has 100 activities then run second request 
         if (list.length === 100) {
           const secondResponse = await axios.get(baseUrl, {
             headers: { Authorization: `Bearer ${req.session.token}` },
@@ -49,7 +50,10 @@ export class UserController {
               page: 101,
             },
           });
-          list.push(...secondResponse.data);
+          // check if user has more than 100 activities
+          if (Object.keys(secondResponse.data).length > 0) {
+            list.push(...secondResponse.data);
+          }
         }
       } else {
         createError(401, "Fail to get activities");

@@ -5,7 +5,9 @@
   <%- include('./partials/head_page'); %>
 </head>
 <header>
+  <% if(userData){ %>
   <%- include('./partials/header'); %>
+  <% } %>
 </header>
 <body>
   <% if(userData){ %>

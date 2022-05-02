@@ -23,7 +23,7 @@ export class UserController {
         createError(401, "Fail to get user's details!");
       }
     } catch (e) {
-      next(e);
+      next(createError(404, 'Not Found'));
     }
   }
 

@@ -23,7 +23,7 @@ export class UserController {
         createError(401, "Fail to get user's details!");
       }
     } catch (e) {
-      next(createError(404, 'Not Found'));
+      next(createError(404, "Not Found"));
     }
   }
 
@@ -31,16 +31,23 @@ export class UserController {
   async getUserActivities(req, res, next) {
     try {
       const list = [];
-      const firstUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events?per_page=100&page=1`;
-      const secondUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events?per_page=1&page=101`;
+      const baseUrl = `https://gitlab.lnu.se/api/v4/users/${req.session.user}/events`;
       if (req.session.user) {
-        const firstResponse = await axios.get(firstUrl, {
+        const firstResponse = await axios.get(baseUrl, {
           headers: { Authorization: `Bearer ${req.session.token}` },
+          params: {
+            per_page: 100,
+            page: 1,
+          },
         });
         list.push(...firstResponse.data);
         if (list.length === 100) {
-          const secondResponse = await axios.get(secondUrl, {
+          const secondResponse = await axios.get(baseUrl, {
             headers: { Authorization: `Bearer ${req.session.token}` },
+            params: {
+              per_page: 1,
+              page: 101,
+            },
           });
           list.push(...secondResponse.data);
         }
